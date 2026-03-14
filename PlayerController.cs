@@ -16,11 +16,17 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5.0f;
 
     private Rigidbody rb; 
+    //variable to hold reference to Ground Check Script for Jump Functionality
+    private GroundCheck groundCheckScript;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         if (rb == null) Debug.LogWarning("PlayerController needs a Rigidbody.");
+
+        // Get the reference to GroundCheck Script on the same GameObject
+        groundCheckScript = GetComponent<GroundCheck>();
+        if (groundCheckScript == null) Debug.LogWarning("PlayerController is missing Ground Check Script.");
     }
 
     private void Update()
@@ -54,9 +60,11 @@ public class PlayerController : MonoBehaviour
         rb.MoveRotation(rb.rotation * turnRotation);
 
         //Jump Button Functionality
-        if (Keyboard.current.spaceKey.isPressed)
+        if (Keyboard.current.spaceKey.isPressed && groundCheckScript != null)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+            if(groundCheckScript.CheckIfGrounded()){
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+            }      
         }
     }
 }
