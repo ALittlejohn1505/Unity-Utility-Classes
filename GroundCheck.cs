@@ -34,11 +34,12 @@ public class GroundCheck : MonoBehaviour
         return isGrounded;
     }
 
-     // Visualizes the check in the Scene View for easy debugging
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Vector3 endPoint = transform.position + (Vector3.down * groundCheckDistance);
-        Gizmos.DrawWireSphere(endPoint, groundCheckRadius);
-    }
+    // Visualizes the sphere at the groundCheck position
+        void OnDrawGizmosSelected()
+        {
+            if (groundCheckPoint == null) return;
+            Gizmos.color = Color.yellow;
+            Vector3 endPoint = groundCheckPoint.position + (Vector3.down * groundCheckDistance);
+            Gizmos.DrawWireSphere(endPoint, groundCheckRadius);
+        }
 }
